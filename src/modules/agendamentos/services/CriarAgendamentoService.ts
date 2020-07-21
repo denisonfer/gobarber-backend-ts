@@ -1,23 +1,27 @@
 import { startOfHour } from 'date-fns';
-import { getCustomRepository } from 'typeorm';
 
 import AppError from '@shared/errors/AppError';
 
-import Agendamento from '@modules/agendamentos/infra/typeorm/entities/Agendamento';
-import AgendamentosRepositorio from '../repositories/AgendamentosRepositorio';
+import Agendamento from '../infra/typeorm/entities/Agendamento';
+import IAgendamentosRepositorio from "../repositories/IAgendamentosRepositorio";
 
-interface Request {
+interface IRequest {
   prestador_id: string;
   data: Date;
 }
 
 class CriarAgendamentoService {
-  public async execute({ prestador_id, data }: Request): Promise<Agendamento> {
-    const agendamentosRepositorio = getCustomRepository(AgendamentosRepositorio);
+  constructor(
+    private agendamentosRepositorio: IAgendamentosRepositorio
+  ) {
+
+  }
+
+  public async execute({ prestador_id, data }: IRequest): Promise<Agendamento> {
 
     const dataAgendamento = startOfHour(data);
 
-    const buscaAgendamentoComMesmaData = await agendamentosRepositorio.findByDate(
+    const buscaAgendamentoComMesmaData = await this.agendamentosRepositorio.encontrarPorData(
       dataAgendamento,
     );
 
@@ -25,12 +29,11 @@ class CriarAgendamentoService {
       throw new AppError('This appointment is already booked');
     }
 
-    const novoAgendamento = agendamentosRepositorio.create({
+    const novoAgendamento = await this.agendamentosRepositorio.create({
       prestador_id,
       data: dataAgendamento,
     });
 
-    await agendamentosRepositorio.save(novoAgendamento);
 
     return novoAgendamento;
   }

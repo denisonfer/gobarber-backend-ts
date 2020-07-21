@@ -1,28 +1,29 @@
-import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
 import authConfig from '@config/auth';
 
 import AppError from '@shared/errors/AppError';
+import Usuario from "@modules/usuarios/infra/typeorm/entities/Usuario";
 
-import Usuario from '../infra/entities/Usuario';
+import IUsuariosRepositorio from "@modules/usuarios/repositories/IUsuariosRepositorio";
 
-interface Request {
+interface IRequest {
   email: string;
   senha: string;
 }
 
-interface Response {
+interface IResponse {
   usuario: Usuario;
   token: string;
 }
 
 class AuthenticateUserService {
-  public async execute({ email, senha }: Request): Promise<Response> {
-    const usuariosRepositorio = getRepository(Usuario);
+  constructor(private usuariosRepositorio: IUsuariosRepositorio) { }
 
-    const usuario = await usuariosRepositorio.findOne({ where: { email } });
+  public async execute({ email, senha }: IRequest): Promise<IResponse> {
+
+    const usuario = await this.usuariosRepositorio.encontrarPorEmail(email);
 
     if (!usuario) {
       throw new AppError('Usuario/Senha incorretos.', 401);
