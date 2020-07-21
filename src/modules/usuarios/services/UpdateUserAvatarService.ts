@@ -2,11 +2,11 @@ import { getRepository } from 'typeorm';
 import path from 'path';
 import fs from 'fs';
 
-import uploadConfig from '../config/upload';
+import uploadConfig from '@config/upload';
 
-import AppError from '../errors/AppError';
+import AppError from '@shared/errors/AppError';
 
-import Usuario from '../models/Usuario';
+import Usuario from '../infra/entities/Usuario';
 
 interface Request {
   usuario_id: string;

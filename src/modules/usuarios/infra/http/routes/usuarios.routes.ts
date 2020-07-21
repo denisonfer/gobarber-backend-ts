@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import multer from 'multer';
 
-import uploadConfig from '../config/upload';
+import uploadConfig from '@config/upload';
 
-import CriarUsuarioService from '../services/CriarUsuarioService';
-import UpdateUserAvatarService from '../services/UpdateUserAvatarService';
+import CriarUsuarioService from '@modules/usuarios/services/CriarUsuarioService';
+import UpdateUserAvatarService from '@modules/usuarios/services/UpdateUserAvatarService';
 
-import ensureAuthenticaded from '../middlewares/ensureAuthenticaded';
+import ensureAuthenticaded from '@modules/usuarios/infra/http/middlewares/ensureAuthenticaded';
 
 const usuariosRotas = Router();
 
