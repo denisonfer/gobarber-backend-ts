@@ -1,3 +1,4 @@
+import { inject, injectable } from 'tsyringe';
 import { startOfHour } from 'date-fns';
 
 import AppError from '@shared/errors/AppError';
@@ -10,12 +11,12 @@ interface IRequest {
   data: Date;
 }
 
+@injectable()
 class CriarAgendamentoService {
   constructor(
+    @inject('AgendamentosRepositorio')
     private agendamentosRepositorio: IAgendamentosRepositorio
-  ) {
-
-  }
+  ) { }
 
   public async execute({ prestador_id, data }: IRequest): Promise<Agendamento> {
 
@@ -26,7 +27,7 @@ class CriarAgendamentoService {
     );
 
     if (buscaAgendamentoComMesmaData) {
-      throw new AppError('This appointment is already booked');
+      throw new AppError('Já existe um agendamento nesta data');
     }
 
     const novoAgendamento = await this.agendamentosRepositorio.create({
