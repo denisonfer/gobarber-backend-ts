@@ -5,7 +5,7 @@ import IUsuariosRepositorio from "@modules/usuarios/repositories/IUsuariosReposi
 import Usuario from "@modules/usuarios/infra/typeorm/entities/Usuario";
 
 
-class UsuariosRepositorio implements IUsuariosRepositorio {
+class FakeUsuariosRepositorio implements IUsuariosRepositorio {
   private usuarios: Usuario[] = []
 
   public async encontrarPorID(id: string): Promise<Usuario | undefined> {
@@ -44,4 +44,4 @@ class UsuariosRepositorio implements IUsuariosRepositorio {
 
 }
 
-export default UsuariosRepositorio;
+export default FakeUsuariosRepositorio;
