@@ -10,8 +10,10 @@ import IUsuariosRepositorio from "@modules/usuarios/repositories/IUsuariosReposi
 import UsuariosRepositorio from "@modules/usuarios/infra/typeorm/repositories/UsuariosRepositorio";
 
 import ITokenUsuarioRepositorio from "@modules/usuarios/repositories/ITokenUsuarioRepositorio";
-//import UsuariosRepositorio from "@modules/usuarios/infra/typeorm/repositories/";
+import TokenUsuarioRepositorio from "@modules/usuarios/infra/typeorm/repositories/TokenUsuarioRepositorio";
 
 container.registerSingleton<IAgendamentosRepositorio>('AgendamentosRepositorio', AgendamentosRepositorio)
 
 container.registerSingleton<IUsuariosRepositorio>('UsuariosRepositorio', UsuariosRepositorio)
+
+container.registerSingleton<ITokenUsuarioRepositorio>('TokenUsuarioRepositorio', TokenUsuarioRepositorio)

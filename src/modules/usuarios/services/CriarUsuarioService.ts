@@ -33,11 +33,13 @@ class CriarUsuarioService {
 
     const hashedSenha = await this.hashProvider.gerarHash(senha);
 
-    const novoUsuario = this.usuariosRepositorio.create({
+    const novoUsuario = await this.usuariosRepositorio.create({
       nome,
       email,
       senha: hashedSenha,
     });
+
+    await this.usuariosRepositorio.save(novoUsuario);
 
 
     return novoUsuario;

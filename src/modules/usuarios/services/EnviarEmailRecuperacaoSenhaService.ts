@@ -16,7 +16,7 @@ export default class EnviarEmailRecuperacaoSenhaService {
     @inject('MailProvider')
     private mailprovider: IMailProvider,
 
-    @inject('tokenUsuarioRepositorio')
+    @inject('TokenUsuarioRepositorio')
     private tokenUsuarioRepositorio: ITokenUsuarioRepositorio,
   ) { }
 
@@ -29,7 +29,10 @@ export default class EnviarEmailRecuperacaoSenhaService {
 
     await this.tokenUsuarioRepositorio.gerarToken(usuario.id)
 
-    this.mailprovider.enviarEmail(email, 'Pedido de recuperação de senha recebido')
+    await this.mailprovider.enviarEmail(
+      email,
+      'Pedido de recuperação de senha recebido'
+    );
   }
 
 }
