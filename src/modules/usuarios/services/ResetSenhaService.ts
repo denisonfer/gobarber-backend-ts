@@ -1,4 +1,4 @@
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 import { addHours, isAfter } from "date-fns";
 
 import IUsuariosRepositorio from "../repositories/IUsuariosRepositorio";
@@ -11,12 +11,14 @@ interface IRequestDTO {
   senha: string;
   token: string;
 }
+
+@injectable()
 export default class ResetSenhaService {
   constructor(
     @inject('UsuariosRepositorio')
     private usuariosRepositorio: IUsuariosRepositorio,
 
-    @inject('tokenUsuarioRepositorio')
+    @inject('TokenUsuarioRepositorio')
     private tokenUsuarioRepositorio: ITokenUsuarioRepositorio,
 
     @inject('HashProvider')

@@ -1,4 +1,4 @@
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
 
 import IUsuariosRepositorio from "../repositories/IUsuariosRepositorio";
 import IMailProvider from "@shared/container/providers/MailProvider/models/IMailProvider";
@@ -8,6 +8,8 @@ import ITokenUsuarioRepositorio from "../repositories/ITokenUsuarioRepositorio";
 interface IRequestDTO {
   email: string;
 }
+
+@injectable()
 export default class EnviarEmailRecuperacaoSenhaService {
   constructor(
     @inject('UsuariosRepositorio')
@@ -27,11 +29,11 @@ export default class EnviarEmailRecuperacaoSenhaService {
       throw new AppError('Usuário não localizado!')
     }
 
-    await this.tokenUsuarioRepositorio.gerarToken(usuario.id)
+    const { token } = await this.tokenUsuarioRepositorio.gerarToken(usuario.id)
 
     await this.mailprovider.enviarEmail(
       email,
-      'Pedido de recuperação de senha recebido'
+      `Pedido de recuperação de senha recebido: ${token}`
     );
   }
 

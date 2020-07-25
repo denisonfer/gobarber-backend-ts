@@ -22,7 +22,9 @@ class TokenUsuarioRepositorio implements ITokenUsuarioRepositorio {
   }
 
   public async encontrarPorToken(token: string): Promise<TokenUsuario | undefined> {
-    const tokenUsuario = await this.ormRepositorio.findOne(token)
+    const tokenUsuario = await this.ormRepositorio.findOne({
+      where: { token }
+    })
 
     return tokenUsuario;
   }
