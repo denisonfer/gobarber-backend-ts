@@ -1,9 +1,10 @@
-import { getRepository, Repository } from "typeorm";
+import { getRepository, Repository, Not } from "typeorm";
 
 import Usuario from "../entities/Usuario";
 
 import ICriarUsuarioDTO from "@modules/usuarios/dtos/ICriarUsuarioDTO";
 import IUsuariosRepositorio from "@modules/usuarios/repositories/IUsuariosRepositorio";
+import IEncontrarTodosPrestadoresDTO from "@modules/usuarios/dtos/IEncontrarTodosPrestadoresDTO";
 
 
 class UsuariosRepositorio implements IUsuariosRepositorio {
@@ -11,6 +12,23 @@ class UsuariosRepositorio implements IUsuariosRepositorio {
 
   constructor() {
     this.ormRepositorio = getRepository(Usuario)
+  }
+
+  public async encontrarTodosPrestadores({ id_except }: IEncontrarTodosPrestadoresDTO): Promise<Usuario[]> {
+    let usuarios: Usuario[];
+
+    if (id_except) {
+      usuarios = await this.ormRepositorio.find({
+        where: {
+          id: Not(id_except)
+        }
+      })
+    } else {
+      usuarios = await this.ormRepositorio.find()
+    }
+
+    return usuarios;
+
   }
 
   public async encontrarPorID(id: string): Promise<Usuario | undefined> {
