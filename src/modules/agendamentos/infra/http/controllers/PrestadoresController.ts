@@ -1,15 +1,14 @@
-import { Request, Response } from "express";
-import { container } from "tsyringe";
+import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 
-import ListarPrestadoresService from "@modules/agendamentos/services/ListarPrestadoresServices";
+import ListarPrestadoresService from '@modules/agendamentos/services/ListarPrestadoresServices';
 
 class PrestadoresController {
-
   public async index(req: Request, res: Response): Promise<Response> {
     const listarPrestadores = container.resolve(ListarPrestadoresService);
 
     const prestadores = await listarPrestadores.execute({
-      id_usuario: req.usuario.id
+      id_usuario: req.usuario.id,
     });
 
     return res.json(prestadores);
@@ -17,4 +16,3 @@ class PrestadoresController {
 }
 
 export default PrestadoresController;
-
