@@ -1,12 +1,15 @@
 import AppError from '@shared/errors/AppError';
+import FakeNotificacoesRepositorio from '@modules/notificacoes/repositories/fakes/FakeNotificacoesRepositorio';
 import FakeAgendamentosRepositorio from '../repositories/fakes/FakeAgendamentosRepositorio';
 import CriarAgendamentoService from './CriarAgendamentoService';
 
 describe('CriarAgendamento', () => {
   it('Deve ser capaz de criar um novo agendamento', async () => {
     const fakeAgendamentoRepositorio = new FakeAgendamentosRepositorio();
+    const fakeNotificacoesRepositorio = new FakeNotificacoesRepositorio();
     const criarAgendamento = new CriarAgendamentoService(
       fakeAgendamentoRepositorio,
+      fakeNotificacoesRepositorio,
     );
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
       return new Date(2020, 4, 10, 12).getTime();
@@ -24,8 +27,10 @@ describe('CriarAgendamento', () => {
 
   it('Não deve ser capaz de criar 2 agendamentos no mesmo horário', async () => {
     const fakeAgendamentoRepositorio = new FakeAgendamentosRepositorio();
+    const fakeNotificacoesRepositorio = new FakeNotificacoesRepositorio();
     const criarAgendamento = new CriarAgendamentoService(
       fakeAgendamentoRepositorio,
+      fakeNotificacoesRepositorio,
     );
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
       return new Date(2020, 4, 10, 12).getTime();
@@ -50,8 +55,10 @@ describe('CriarAgendamento', () => {
 
   it('Não deve ser capaz de criar agendamentos em datas passadas', async () => {
     const fakeAgendamentoRepositorio = new FakeAgendamentosRepositorio();
+    const fakeNotificacoesRepositorio = new FakeNotificacoesRepositorio();
     const criarAgendamento = new CriarAgendamentoService(
       fakeAgendamentoRepositorio,
+      fakeNotificacoesRepositorio,
     );
 
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
@@ -69,8 +76,10 @@ describe('CriarAgendamento', () => {
 
   it('Não deve ser capaz de criar agendamentos com o prestador logado', async () => {
     const fakeAgendamentoRepositorio = new FakeAgendamentosRepositorio();
+    const fakeNotificacoesRepositorio = new FakeNotificacoesRepositorio();
     const criarAgendamento = new CriarAgendamentoService(
       fakeAgendamentoRepositorio,
+      fakeNotificacoesRepositorio,
     );
 
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
@@ -88,8 +97,10 @@ describe('CriarAgendamento', () => {
 
   it('Não deve ser capaz de criar agendamentos antes das 08h e depois das 17h', async () => {
     const fakeAgendamentoRepositorio = new FakeAgendamentosRepositorio();
+    const fakeNotificacoesRepositorio = new FakeNotificacoesRepositorio();
     const criarAgendamento = new CriarAgendamentoService(
       fakeAgendamentoRepositorio,
+      fakeNotificacoesRepositorio,
     );
 
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
