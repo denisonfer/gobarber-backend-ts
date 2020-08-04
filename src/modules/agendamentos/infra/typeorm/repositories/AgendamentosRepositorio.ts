@@ -30,7 +30,11 @@ class AgendamentosRepository implements IAgendamentosRepositorio {
   }
 
   public async encontrarPorData(data: Date): Promise<Agendamento | undefined> {
-    const findAgendamento = await this.ormRepository.findOne(data);
+    const findAgendamento = await this.ormRepository.findOne({
+      where: {
+        data,
+      },
+    });
 
     return findAgendamento;
   }
