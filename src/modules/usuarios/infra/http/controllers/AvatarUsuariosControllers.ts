@@ -1,5 +1,6 @@
-import { Request, Response } from "express";
-import { container } from "tsyringe";
+import { Request, Response } from 'express';
+import { container } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 import UpdateUserAvatarService from '@modules/usuarios/services/UpdateUserAvatarService';
 
@@ -12,8 +13,6 @@ export default class AvatarUsuariosControllers {
       avatarFilename: req.file.filename,
     });
 
-    delete usuario.senha;
-
-    return res.json(usuario);
+    return res.json(classToClass(usuario));
   }
 }

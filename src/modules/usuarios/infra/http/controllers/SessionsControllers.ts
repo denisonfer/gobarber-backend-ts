@@ -1,5 +1,6 @@
-import { Request, Response } from "express";
-import { container } from "tsyringe";
+import { Request, Response } from 'express';
+import { container } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 import AuthenticateUserService from '@modules/usuarios/services/AuthenticateUserService';
 
@@ -14,8 +15,6 @@ export default class SessionsControllers {
       senha,
     });
 
-    delete usuario.senha;
-
-    return res.json({ usuario, token });
+    return res.json({ usuario: classToClass(usuario), token });
   }
 }

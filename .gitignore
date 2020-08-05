@@ -7,6 +7,7 @@ gostack-desafio-05
 gostack-desafio-06
 
 ### Node ###
+ormconfig.json
 # Logs
 logs
 *.log

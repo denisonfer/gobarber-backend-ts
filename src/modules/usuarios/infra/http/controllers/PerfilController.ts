@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 import AtualizarPerfilService from '@modules/usuarios/services/AtualizarPerfilService';
 import ExibirPerfilService from '@modules/usuarios/services/ExibirPerfilService';
@@ -12,7 +13,7 @@ class PerfilController {
       id_usuario: req.usuario.id,
     });
 
-    return res.json(usuario);
+    return res.json(classToClass(usuario));
   }
 
   public async update(req: Request, res: Response): Promise<Response> {
@@ -28,9 +29,7 @@ class PerfilController {
       senha,
     });
 
-    delete atualizarUsuario.senha;
-
-    return res.json(atualizarUsuario);
+    return res.json(classToClass(atualizarUsuario));
   }
 }
 

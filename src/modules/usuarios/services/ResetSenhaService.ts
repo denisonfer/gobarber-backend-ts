@@ -22,7 +22,7 @@ export default class ResetSenhaService {
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
-  ) {}
+  ) { }
 
   public async execute({ token, senha }: IRequestDTO): Promise<void> {
     const tokenUsuario = await this.tokenUsuarioRepositorio.encontrarPorToken(

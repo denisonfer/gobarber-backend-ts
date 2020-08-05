@@ -20,7 +20,7 @@ export default class EnviarEmailRecuperacaoSenhaService {
 
     @inject('TokenUsuarioRepositorio')
     private tokenUsuarioRepositorio: ITokenUsuarioRepositorio,
-  ) {}
+  ) { }
 
   public async execute({ email }: IRequestDTO): Promise<void> {
     const usuario = await this.usuariosRepositorio.encontrarPorEmail(email);
@@ -48,7 +48,7 @@ export default class EnviarEmailRecuperacaoSenhaService {
         file: esqueciSenhaTemplate,
         variables: {
           nome: usuario.nome,
-          link: `http://localhost:3000/resetar_senha/?token=${token}`,
+          link: `${process.env.APP_WEB_URL}/resetar_senha/?token=${token}`,
         },
       },
     });

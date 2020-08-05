@@ -6,6 +6,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import uploadConfig from '@config/upload';
+
+import { Exclude, Expose } from 'class-transformer';
+
 @Entity('usuarios')
 class Usuarios {
   @PrimaryGeneratedColumn('uuid')
@@ -18,6 +22,7 @@ class Usuarios {
   email: string;
 
   @Column()
+  @Exclude()
   senha: string;
 
   @Column()
@@ -28,6 +33,24 @@ class Usuarios {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Expose({ name: 'avatar_url' })
+  getAvatar_url(): string | null {
+    if (!this.avatar) {
+      return null;
+    }
+
+    switch (uploadConfig.driver) {
+      case 'disk':
+        return `${process.env.APP_API_URL}/files/${this.avatar}`;
+
+      case 's3':
+        return `https://${uploadConfig.config.aws.bucket}.s3.us-east-2.amazonaws.com/${this.avatar}`;
+
+      default:
+        return null;
+    }
+  }
 }
 
 export default Usuarios;
