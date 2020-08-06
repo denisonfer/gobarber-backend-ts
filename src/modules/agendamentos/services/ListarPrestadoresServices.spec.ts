@@ -1,14 +1,19 @@
-import AppError from '@shared/errors/AppError';
 import FakeUsuariosRepositorio from '@modules/usuarios/repositories/fakes/FakeUsuariosRepositorio';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import ListarPrestadoresService from './ListarPrestadoresServices';
 
 let fakeUsuarioRepositorio: FakeUsuariosRepositorio;
+let fakeCacheProvider: FakeCacheProvider;
 let listarPrestores: ListarPrestadoresService;
 
 describe('AtualizarPerfil', () => {
   beforeEach(() => {
     fakeUsuarioRepositorio = new FakeUsuariosRepositorio();
-    listarPrestores = new ListarPrestadoresService(fakeUsuarioRepositorio);
+    fakeCacheProvider = new FakeCacheProvider();
+    listarPrestores = new ListarPrestadoresService(
+      fakeUsuarioRepositorio,
+      fakeCacheProvider,
+    );
   });
 
   it('Deve ser capaz de exibir todos os prestadores', async () => {
@@ -34,12 +39,6 @@ describe('AtualizarPerfil', () => {
       id_usuario: usuarioLogado.id,
     });
 
-    expect(prestadores).toEqual([
-      usuario1,
-      usuario2
-    ]);
+    expect(prestadores).toEqual([usuario1, usuario2]);
   });
-
-
 });
-
